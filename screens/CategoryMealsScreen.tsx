@@ -5,7 +5,7 @@ import { NavigationStackProp, NavigationStackOptions } from 'react-navigation-st
 import { CATEGORIES, MEALS } from '../data/dummy-data';
 import Meal from '../models/Meal';
 import MealItem from '../components/MealItem';
-import { Routes } from '../navigation/RouteTypes';
+import { StackRoutes } from '../navigation/RouteTypes';
 
 type Props = {
   navigation: NavigationStackProp<{}>;
@@ -17,7 +17,7 @@ const CategoryMealScreen = (props: Props) => {
   const displayedMeals = MEALS.filter((m) => m.categoryIds.includes(categoryId));
 
   const handlePress = (mealId: string) => {
-    props.navigation.navigate(Routes.MEAL_DETAIL, {
+    props.navigation.navigate(StackRoutes.MEAL_DETAIL, {
       mealId: mealId,
       title: displayedMeals.find((m) => m.id === mealId)?.title,
       color: currentCategory?.color,

@@ -1,4 +1,3 @@
-import { createAppContainer } from 'react-navigation';
 import {
   createStackNavigator,
   NavigationStackOptions,
@@ -8,20 +7,12 @@ import {
 import CategoriesScreen from '../screens/CategoriesScreen';
 import CategoryMealScreen from '../screens/CategoryMealsScreen';
 import MealDetailScreen from '../screens/MealDetailScreen';
-import { Routes } from './RouteTypes';
+import { StackRoutes } from './RouteTypes';
 import colors from '../constants/colors';
+import { Route } from './index';
 
-type NavigationOptions =
-  | NavigationStackOptions
-  | ((navigationData: { navigation: NavigationStackProp<{}> }) => NavigationStackOptions);
-
-type Route = {
-  screen: (props: any) => JSX.Element;
-  navigationOptions?: NavigationOptions;
-};
-
-type RouteMap = {
-  [key in Routes]: Route | ((props: any) => JSX.Element);
+type RoutesMap = {
+  [key in StackRoutes]: Route<NavigationStackOptions, NavigationStackProp<{}>>;
 };
 
 const defaultNavigationOptions: NavigationStackOptions = {
@@ -31,7 +22,7 @@ const defaultNavigationOptions: NavigationStackOptions = {
   headerTintColor: 'white',
 };
 
-const routesMap: RouteMap = {
+const stackRoutesMap: RoutesMap = {
   Categories: {
     screen: CategoriesScreen,
     navigationOptions: { headerTitle: 'Meal categories' },
@@ -56,6 +47,6 @@ const routesMap: RouteMap = {
   },
 };
 
-const MealsNavigator = createStackNavigator(routesMap, { defaultNavigationOptions });
+const MealsNavigator = createStackNavigator(stackRoutesMap, { defaultNavigationOptions });
 
-export default createAppContainer(MealsNavigator);
+export default MealsNavigator;

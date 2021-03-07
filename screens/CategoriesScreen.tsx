@@ -2,7 +2,7 @@ import React from 'react';
 import { FlatList, ListRenderItemInfo } from 'react-native';
 import { NavigationStackProp } from 'react-navigation-stack';
 
-import { Routes } from '../navigation/RouteTypes';
+import { StackRoutes } from '../navigation/RouteTypes';
 import { CATEGORIES } from '../data/dummy-data';
 import Category from '../models/Category';
 import CategoryGridTile from '../components/CategoryGridTile';
@@ -16,7 +16,7 @@ const CategoriesScreen = ({ navigation }: Props) => {
     <CategoryGridTile
       onPress={() =>
         navigation.navigate({
-          routeName: Routes.CATEGORY_MEALS,
+          routeName: StackRoutes.CATEGORY_MEALS,
           params: {
             title: itemData.item.title,
             color: itemData.item.color,
