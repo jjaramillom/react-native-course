@@ -1,22 +1,33 @@
 import React from 'react';
-import { View, StyleSheet, FlatList, ListRenderItemInfo, Text } from 'react-native';
+import { View, StyleSheet, FlatList, ListRenderItemInfo } from 'react-native';
 import { NavigationStackProp, NavigationStackOptions } from 'react-navigation-stack';
 
 import { CATEGORIES, MEALS } from '../data/dummy-data';
 import Meal from '../models/Meal';
 import MealItem from '../components/MealItem';
+import { Routes } from '../navigation/RouteTypes';
 
 type Props = {
   navigation: NavigationStackProp<{}>;
 };
 
 const CategoryMealScreen = (props: Props) => {
-  const id = props.navigation.getParam('id');
+  const categoryId = props.navigation.getParam('id');
+  const currentCategory = CATEGORIES.find((el) => el.id === categoryId);
+  const displayedMeals = MEALS.filter((m) => m.categoryIds.includes(categoryId));
+
+  const handlePress = (mealId: string) => {
+    props.navigation.navigate(Routes.MEAL_DETAIL, {
+      mealId: mealId,
+      title: displayedMeals.find((m) => m.id === mealId)?.title,
+      color: currentCategory?.color,
+    });
+  };
+
   const renderMealItem = (itemData: ListRenderItemInfo<Meal>) => (
-    <MealItem item={itemData.item} />
+    <MealItem item={itemData.item} onPress={() => handlePress(itemData.item.id)} />
   );
 
-  const displayedMeals = MEALS.filter((m) => m.categoryIds.includes(id));
   return (
     <View style={styles.screen}>
       <FlatList

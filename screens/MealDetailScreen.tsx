@@ -1,18 +1,23 @@
 import React from 'react';
 import { View, Text, StyleSheet, Button } from 'react-native';
 import { NavigationStackProp, NavigationStackOptions } from 'react-navigation-stack';
+import { HeaderButtons, Item } from 'react-navigation-header-buttons';
 
-import { CATEGORIES } from '../data/dummy-data';
+import HeaderButton from '../components/HeaderButton';
+import { MEALS } from '../data/dummy-data';
 
 type Props = {
   navigation: NavigationStackProp<{}>;
 };
 
-const MealDetailScreen = (props: Props) => {
+const MealDetailScreen = ({ navigation }: Props) => {
+  const mealId = navigation.getParam('mealId');
+  const selectedMeal = MEALS.find((meal) => meal.id === mealId);
+
   return (
     <View style={styles.screen}>
-      <Text>The MealDetailScreen!</Text>
-      <Button title='Go back to categories!' onPress={() => props.navigation.popToTop()} />
+      <Text>{selectedMeal?.title}</Text>
+      <Button title='Go back to categories!' onPress={() => navigation.popToTop()} />
     </View>
   );
 };
@@ -25,18 +30,18 @@ const styles = StyleSheet.create({
   },
 });
 
-const navigationOptions = (navigationData: {
-  navigation: NavigationStackProp<{}>;
-}): NavigationStackOptions => {
-  const categoryId = navigationData.navigation.getParam('categoryId');
-  console.log(categoryId)
-  const currentCategory = CATEGORIES.find((el) => el.id === categoryId);
-  return {
-    headerTitle:'12321321',
-    headerStyle: {
-      backgroundColor: currentCategory?.color,
-    },
-  };
+const navigationOptions: NavigationStackOptions = {
+  headerRight: () => (
+    <HeaderButtons HeaderButtonComponent={HeaderButton}>
+      <Item
+        title='Favorite'
+        iconName='ios-star'
+        onPress={() => {
+          console.log('Mark as favorite!');
+        }}
+      />
+    </HeaderButtons>
+  ),
 };
 
 MealDetailScreen.navigationOptions = navigationOptions;

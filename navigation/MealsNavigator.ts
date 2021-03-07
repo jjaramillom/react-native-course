@@ -47,7 +47,13 @@ const routesMap: RouteMap = {
       };
     },
   },
-  MealDetail: { screen: MealDetailScreen },
+  MealDetail: {
+    screen: MealDetailScreen,
+    navigationOptions: ({ navigation }) => ({
+      headerTitle: navigation.getParam('title'),
+      headerStyle: { backgroundColor: navigation.getParam('color') },
+    }),
+  },
 };
 
 const MealsNavigator = createStackNavigator(routesMap, { defaultNavigationOptions });

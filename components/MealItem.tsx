@@ -6,12 +6,13 @@ import TouchableComponent from './TouchableComponent';
 
 type Props = {
   item: Meal;
+  onPress: () => void;
 };
 
-const CategoryGridTile = ({ item }: Props) => {
+const CategoryGridTile = ({ item,onPress }: Props) => {
   return (
     <View style={styles.container}>
-      <TouchableComponent style={{ flex: 1 }} onPress={() => {}}>
+      <TouchableComponent style={{ flex: 1 }} onPress={onPress}>
         <View>
           <View style={{ ...styles.row, ...styles.header }}>
             <ImageBackground source={{ uri: item.imageUrl }} style={styles.bgImage}>
