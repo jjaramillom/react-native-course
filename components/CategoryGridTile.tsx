@@ -1,12 +1,7 @@
 import React from 'react';
-import {
-  View,
-  Text,
-  StyleSheet,
-  TouchableOpacity,
-  TouchableNativeFeedback,
-  Platform,
-} from 'react-native';
+import { View, Text, StyleSheet } from 'react-native';
+
+import TouchableComponent from './TouchableComponent';
 
 type Props = {
   onPress: () => void;
@@ -15,20 +10,13 @@ type Props = {
 };
 
 const CategoryGridTile = ({ onPress, title, color }: Props) => {
-  let TouchableCmp: any;
-
-
-  if (Platform.OS === 'android' && Platform.Version >= 21) {
-    TouchableCmp = TouchableNativeFeedback;
-  }
-
   return (
     <View style={styles.gridItem}>
-      <TouchableCmp style={{ flex: 1 }} onPress={onPress}>
+      <TouchableComponent style={{ flex: 1 }} onPress={onPress}>
         <View style={{ ...styles.container, backgroundColor: color }}>
           <Text style={styles.title}>{title}</Text>
         </View>
-      </TouchableCmp>
+      </TouchableComponent>
     </View>
   );
 };

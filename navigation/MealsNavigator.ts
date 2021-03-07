@@ -6,7 +6,7 @@ import {
 } from 'react-navigation-stack';
 
 import CategoriesScreen from '../screens/CategoriesScreen';
-import CategoryMealScreen from '../screens/CategoryMealScreen';
+import CategoryMealScreen from '../screens/CategoryMealsScreen';
 import MealDetailScreen from '../screens/MealDetailScreen';
 import { Routes } from './RouteTypes';
 import colors from '../constants/colors';

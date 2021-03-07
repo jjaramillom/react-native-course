@@ -20,6 +20,7 @@ const CategoriesScreen = ({ navigation }: Props) => {
           params: {
             title: itemData.item.title,
             color: itemData.item.color,
+            id: itemData.item.id,
           },
         })
       }
