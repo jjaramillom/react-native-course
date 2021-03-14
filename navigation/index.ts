@@ -1,6 +1,6 @@
 import { createAppContainer } from 'react-navigation';
 
-import MealsFavTabNavigator from './FavoritesTabNavigator';
+import MainNavigator from './MainNavigator';
 
 type NavigationOptions<T, S> = T | ((navigationData: { navigation: S }) => T);
 
@@ -9,4 +9,4 @@ export type Route<T, S> = {
   navigationOptions?: NavigationOptions<T, S>;
 };
 
-export default createAppContainer(MealsFavTabNavigator);
+export default createAppContainer(MainNavigator);

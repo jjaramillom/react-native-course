@@ -7,17 +7,23 @@ import {
 import CategoriesScreen from '../screens/CategoriesScreen';
 import CategoryMealScreen from '../screens/CategoryMealsScreen';
 import MealDetailScreen from '../screens/MealDetailScreen';
-import { StackRoutes } from './RouteTypes';
-import colors from '../constants/colors';
+import { MealsRoutes } from './RouteTypes';
 import { Route } from './index';
+import colors from '../constants/colors';
 
 type RoutesMap = {
-  [key in StackRoutes]: Route<NavigationStackOptions, NavigationStackProp<{}>>;
+  [key in MealsRoutes]: Route<NavigationStackOptions, NavigationStackProp<{}>>;
 };
 
 const defaultNavigationOptions: NavigationStackOptions = {
   headerStyle: {
     backgroundColor: colors.primaryColor,
+  },
+  headerTitleStyle: {
+    fontFamily: 'open-sans-bold',
+  },
+  headerBackTitleStyle: {
+    fontFamily: 'open-sans',
   },
   headerTintColor: 'white',
 };
@@ -29,20 +35,14 @@ const stackRoutesMap: RoutesMap = {
   },
   CategoryMeals: {
     screen: CategoryMealScreen,
-    navigationOptions: ({ navigation }) => {
-      const color = navigation.getParam('color');
-      const title = navigation.getParam('title');
-      return {
-        headerTitle: title,
-        headerStyle: { backgroundColor: color },
-      };
-    },
+    navigationOptions: ({ navigation }) => ({
+      headerTitle: navigation.getParam('title'),
+    }),
   },
   MealDetail: {
     screen: MealDetailScreen,
     navigationOptions: ({ navigation }) => ({
       headerTitle: navigation.getParam('title'),
-      headerStyle: { backgroundColor: navigation.getParam('color') },
     }),
   },
 };

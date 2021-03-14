@@ -1,11 +1,10 @@
 import React from 'react';
-import { View, StyleSheet, FlatList, ListRenderItemInfo } from 'react-native';
+import { View, StyleSheet } from 'react-native';
 import { NavigationStackProp, NavigationStackOptions } from 'react-navigation-stack';
 
 import { CATEGORIES, MEALS } from '../data/dummy-data';
-import Meal from '../models/Meal';
-import MealItem from '../components/MealItem';
-import { StackRoutes } from '../navigation/RouteTypes';
+import MealList from '../components/MealList';
+import { MealsRoutes } from '../navigation/RouteTypes';
 
 type Props = {
   navigation: NavigationStackProp<{}>;
@@ -13,29 +12,18 @@ type Props = {
 
 const CategoryMealScreen = (props: Props) => {
   const categoryId = props.navigation.getParam('id');
-  const currentCategory = CATEGORIES.find((el) => el.id === categoryId);
   const displayedMeals = MEALS.filter((m) => m.categoryIds.includes(categoryId));
 
   const handlePress = (mealId: string) => {
-    props.navigation.navigate(StackRoutes.MEAL_DETAIL, {
+    props.navigation.navigate(MealsRoutes.MEAL_DETAIL, {
       mealId: mealId,
       title: displayedMeals.find((m) => m.id === mealId)?.title,
-      color: currentCategory?.color,
     });
   };
 
-  const renderMealItem = (itemData: ListRenderItemInfo<Meal>) => (
-    <MealItem item={itemData.item} onPress={() => handlePress(itemData.item.id)} />
-  );
-
   return (
     <View style={styles.screen}>
-      <FlatList
-        style={styles.mealsList}
-        data={displayedMeals}
-        keyExtractor={(el) => el.id}
-        renderItem={renderMealItem}
-      />
+      <MealList onPress={handlePress} meals={displayedMeals} />
     </View>
   );
 };
@@ -45,11 +33,6 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
-  },
-  mealsList: {
-    width: '100%',
-    paddingHorizontal: 15,
-    marginBottom: 15,
   },
 });
 

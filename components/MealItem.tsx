@@ -9,7 +9,7 @@ type Props = {
   onPress: () => void;
 };
 
-const CategoryGridTile = ({ item,onPress }: Props) => {
+const MealItem = ({ item,onPress }: Props) => {
   return (
     <View style={styles.container}>
       <TouchableComponent style={{ flex: 1 }} onPress={onPress}>
@@ -73,4 +73,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default CategoryGridTile;
+export default MealItem;

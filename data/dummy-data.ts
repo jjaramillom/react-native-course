@@ -14,21 +14,8 @@ export const CATEGORIES: Category[] = [
   new Category('c10', 'Summer', '#47fced'),
 ];
 
-/* 
-id
-categoryIds
-title
-affordability
-complexity
-imageUrl
-duration
-ingredients
-steps
-isGlutenFree
-isVegan
-isVegetarian
-isLactoseFree
- */
+export const FAVORITE_MEALS_IDS = ['m1', 'm2', 'm3', 'm4'];
+
 export const MEALS = [
   new Meal({
     id: 'm1',

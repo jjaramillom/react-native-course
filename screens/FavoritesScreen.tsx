@@ -1,10 +1,29 @@
 import React from 'react';
-import { View, Text, StyleSheet } from 'react-native';
+import { View, StyleSheet } from 'react-native';
+import { NavigationStackProp, NavigationStackOptions } from 'react-navigation-stack';
+import { NavigationDrawerProp } from 'react-navigation-drawer';
+import { HeaderButtons, Item } from 'react-navigation-header-buttons';
 
-const FavoritesScreen = () => {
+import MealList from '../components/MealList';
+import { MealsRoutes } from '../navigation/RouteTypes';
+import { FAVORITE_MEALS_IDS, MEALS } from '../data/dummy-data';
+import HeaderButton from '../components/HeaderButton';
+
+type Props = {
+  navigation: NavigationStackProp<{}>;
+};
+
+const FavoritesScreen = ({ navigation }: Props) => {
+  const favoriteMeals = MEALS.filter((m) => FAVORITE_MEALS_IDS.includes(m.id));
+  const handlePress = (mealId: string) => {
+    navigation.navigate(MealsRoutes.MEAL_DETAIL, {
+      mealId: mealId,
+      title: favoriteMeals.find((m) => m.id === mealId)?.title,
+    });
+  };
   return (
     <View style={styles.screen}>
-      <Text>The FavoritesScreen!</Text>
+      <MealList meals={favoriteMeals} onPress={handlePress} />
     </View>
   );
 };
@@ -16,5 +35,23 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
 });
+
+const navigationOptions = (navigationData: {
+  navigation: NavigationDrawerProp<{}>;
+}): NavigationStackOptions => {
+  return {
+    headerLeft: () => (
+      <HeaderButtons HeaderButtonComponent={HeaderButton}>
+        <Item
+          title='Favorite'
+          iconName='ios-menu'
+          onPress={() => navigationData.navigation.toggleDrawer()}
+        />
+      </HeaderButtons>
+    ),
+  };
+};
+
+FavoritesScreen.navigationOptions = navigationOptions;
 
 export default FavoritesScreen;
