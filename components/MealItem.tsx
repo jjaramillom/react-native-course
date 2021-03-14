@@ -3,13 +3,14 @@ import { View, Text, StyleSheet, ImageBackground } from 'react-native';
 
 import Meal from '../models/Meal';
 import TouchableComponent from './TouchableComponent';
+import DefaultText from './DefaultText';
 
 type Props = {
   item: Meal;
   onPress: () => void;
 };
 
-const MealItem = ({ item,onPress }: Props) => {
+const MealItem = ({ item, onPress }: Props) => {
   return (
     <View style={styles.container}>
       <TouchableComponent style={{ flex: 1 }} onPress={onPress}>
@@ -24,9 +25,9 @@ const MealItem = ({ item,onPress }: Props) => {
             </ImageBackground>
           </View>
           <View style={{ ...styles.row, ...styles.details }}>
-            <Text>{item.duration} minutes</Text>
-            <Text>{item.complexity.toUpperCase()} </Text>
-            <Text>{item.affordability.toUpperCase()} </Text>
+            <DefaultText>{item.duration} minutes</DefaultText>
+            <DefaultText>{item.complexity.toUpperCase()} </DefaultText>
+            <DefaultText>{item.affordability.toUpperCase()} </DefaultText>
           </View>
         </View>
       </TouchableComponent>
