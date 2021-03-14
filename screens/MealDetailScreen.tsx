@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, Text, Image, StyleSheet, Button, ScrollView } from 'react-native';
+import { View, Text, Image, StyleSheet, ScrollView } from 'react-native';
 import { NavigationStackProp, NavigationStackOptions } from 'react-navigation-stack';
 import { HeaderButtons, Item } from 'react-navigation-header-buttons';
 
