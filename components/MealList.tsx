@@ -1,19 +1,26 @@
 import React from 'react';
-import { View, StyleSheet, FlatList, ListRenderItemInfo } from 'react-native';
+import { StyleSheet, FlatList, ListRenderItemInfo } from 'react-native';
 import { NavigationStackProp, NavigationStackOptions } from 'react-navigation-stack';
 
 import { CATEGORIES } from '../data/dummy-data';
 import Meal from '../models/Meal';
 import MealItem from '../components/MealItem';
+import { MealsRoutes } from '../navigation/RouteTypes';
 
 type Props = {
   meals: Meal[];
-  onPress: (id: string) => void;
+  navigation: NavigationStackProp<{}>;
 };
 
-const CategoryMealScreen = ({ onPress, meals }: Props) => {
+const CategoryMealScreen = ({ navigation, meals }: Props) => {
+  const handlePress = (id: string) => {
+    navigation.navigate(MealsRoutes.MEAL_DETAIL, {
+      id: id,
+      title: meals.find((m) => m.id === id)?.title,
+    });
+  };
   const renderMealItem = (itemData: ListRenderItemInfo<Meal>) => (
-    <MealItem item={itemData.item} onPress={() => onPress(itemData.item.id)} />
+    <MealItem item={itemData.item} onPress={() => handlePress(itemData.item.id)} />
   );
 
   return (

@@ -41,9 +41,10 @@ const stackRoutesMap: RoutesMap = {
   },
   MealDetail: {
     screen: MealDetailScreen,
-    navigationOptions: ({ navigation }) => ({
-      headerTitle: navigation.getParam('title'),
-    }),
+    // Done in the MealDetailScreen component
+    // navigationOptions: ({ navigation }) => ({
+    //   headerTitle: navigation.getParam('title'),
+    // }),
   },
 };
 

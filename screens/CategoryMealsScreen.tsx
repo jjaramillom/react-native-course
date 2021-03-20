@@ -2,28 +2,22 @@ import React from 'react';
 import { View, StyleSheet } from 'react-native';
 import { NavigationStackProp, NavigationStackOptions } from 'react-navigation-stack';
 
-import { CATEGORIES, MEALS } from '../data/dummy-data';
+import { CATEGORIES } from '../data/dummy-data';
 import MealList from '../components/MealList';
-import { MealsRoutes } from '../navigation/RouteTypes';
+import { useMealsReducer } from '../hooks';
 
 type Props = {
   navigation: NavigationStackProp<{}>;
 };
 
-const CategoryMealScreen = (props: Props) => {
-  const categoryId = props.navigation.getParam('id');
-  const displayedMeals = MEALS.filter((m) => m.categoryIds.includes(categoryId));
-
-  const handlePress = (mealId: string) => {
-    props.navigation.navigate(MealsRoutes.MEAL_DETAIL, {
-      mealId: mealId,
-      title: displayedMeals.find((m) => m.id === mealId)?.title,
-    });
-  };
+const CategoryMealScreen = ({ navigation }: Props) => {
+  const [_, { filteredMeals }] = useMealsReducer();
+  const categoryId = navigation.getParam('id');
+  const displayedMeals = filteredMeals.filter((m) => m.categoryIds.includes(categoryId));
 
   return (
     <View style={styles.screen}>
-      <MealList onPress={handlePress} meals={displayedMeals} />
+      <MealList navigation={navigation} meals={displayedMeals} />
     </View>
   );
 };

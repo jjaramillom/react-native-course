@@ -1,12 +1,13 @@
 import React from 'react';
 import { View, Text, Image, StyleSheet, ScrollView } from 'react-native';
 import { NavigationStackProp, NavigationStackOptions } from 'react-navigation-stack';
+import { NavigationDrawerProp } from 'react-navigation-drawer';
 import { HeaderButtons, Item } from 'react-navigation-header-buttons';
 
 import HeaderButton from '../components/HeaderButton';
 import DefaultText from '../components/DefaultText';
-import { MEALS } from '../data/dummy-data';
 import Meal from '../models/Meal';
+import { useMealsReducer } from '../hooks';
 
 type Props = {
   navigation: NavigationStackProp<{}>;
@@ -19,8 +20,10 @@ const ListItem = ({ children }: React.PropsWithChildren<{}>) => (
 );
 
 const MealDetailScreen = ({ navigation }: Props) => {
-  const mealId = navigation.getParam('mealId');
-  const selectedMeal = MEALS.find((meal) => meal.id === mealId) as Meal;
+  const [_, { meals }] = useMealsReducer();
+  const mealId = navigation.getParam('id');
+
+  const selectedMeal = meals.find((meal) => meal.id === mealId) as Meal;
 
   return (
     <ScrollView>
@@ -67,18 +70,25 @@ const styles = StyleSheet.create({
   },
 });
 
-const navigationOptions: NavigationStackOptions = {
-  headerRight: () => (
-    <HeaderButtons HeaderButtonComponent={HeaderButton}>
-      <Item
-        title='Favorite'
-        iconName='ios-star'
-        onPress={() => {
-          console.log('Mark as favorite!');
-        }}
-      />
-    </HeaderButtons>
-  ),
+const navigationOptions = (navigationData: {
+  navigation: NavigationDrawerProp<{}>;
+}): NavigationStackOptions => {
+  const title = navigationData.navigation.getParam('title');
+  console.log(title);
+  return {
+    headerTitle: title,
+    headerRight: () => (
+      <HeaderButtons HeaderButtonComponent={HeaderButton}>
+        <Item
+          title='Favorite'
+          iconName='ios-star'
+          onPress={() => {
+            console.log('Mark as favorite!');
+          }}
+        />
+      </HeaderButtons>
+    ),
+  };
 };
 
 MealDetailScreen.navigationOptions = navigationOptions;

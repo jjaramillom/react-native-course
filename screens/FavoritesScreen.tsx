@@ -5,25 +5,18 @@ import { NavigationDrawerProp } from 'react-navigation-drawer';
 import { HeaderButtons, Item } from 'react-navigation-header-buttons';
 
 import MealList from '../components/MealList';
-import { MealsRoutes } from '../navigation/RouteTypes';
-import { FAVORITE_MEALS_IDS, MEALS } from '../data/dummy-data';
 import HeaderButton from '../components/HeaderButton';
+import { useMealsReducer } from '../hooks';
 
 type Props = {
   navigation: NavigationStackProp<{}>;
 };
 
 const FavoritesScreen = ({ navigation }: Props) => {
-  const favoriteMeals = MEALS.filter((m) => FAVORITE_MEALS_IDS.includes(m.id));
-  const handlePress = (mealId: string) => {
-    navigation.navigate(MealsRoutes.MEAL_DETAIL, {
-      mealId: mealId,
-      title: favoriteMeals.find((m) => m.id === mealId)?.title,
-    });
-  };
+  const [_, { favoriteMeals }] = useMealsReducer();
   return (
     <View style={styles.screen}>
-      <MealList meals={favoriteMeals} onPress={handlePress} />
+      <MealList meals={favoriteMeals} navigation={navigation} />
     </View>
   );
 };

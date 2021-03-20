@@ -3,8 +3,11 @@ import { StyleSheet } from 'react-native';
 import { enableScreens } from 'react-native-screens';
 import * as Font from 'expo-font';
 import AppLoading from 'expo-app-loading';
+import { createStore } from 'redux';
+import { Provider } from 'react-redux';
 
 import Navigator from './navigation';
+import { rootReducer } from './store/reducers/root';
 
 const fetchFonts = () => {
   return Font.loadAsync({
@@ -12,6 +15,8 @@ const fetchFonts = () => {
     'open-sans-bold': require('./assets/fonts/OpenSans-Bold.ttf'),
   });
 };
+
+const store = createStore(rootReducer);
 
 enableScreens();
 
@@ -29,7 +34,11 @@ export default function App() {
     );
   }
 
-  return <Navigator />;
+  return (
+    <Provider store={store}>
+      <Navigator />
+    </Provider>
+  );
 }
 
 const styles = StyleSheet.create({
