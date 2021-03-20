@@ -6,6 +6,7 @@ import { CATEGORIES } from '../data/dummy-data';
 import Meal from '../models/Meal';
 import MealItem from '../components/MealItem';
 import { MealsRoutes } from '../navigation/RouteTypes';
+import { useMealsReducer } from '../hooks';
 
 type Props = {
   meals: Meal[];
@@ -13,10 +14,12 @@ type Props = {
 };
 
 const CategoryMealScreen = ({ navigation, meals }: Props) => {
+  const [_, {  favoriteMeals }] = useMealsReducer();
   const handlePress = (id: string) => {
     navigation.navigate(MealsRoutes.MEAL_DETAIL, {
       id: id,
       title: meals.find((m) => m.id === id)?.title,
+      isFavorite: favoriteMeals.some((m) => m.id === id),
     });
   };
   const renderMealItem = (itemData: ListRenderItemInfo<Meal>) => (

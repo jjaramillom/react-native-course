@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useCallback, useEffect } from 'react';
 import { View, Text, Image, StyleSheet, ScrollView } from 'react-native';
 import { NavigationStackProp, NavigationStackOptions } from 'react-navigation-stack';
 import { NavigationDrawerProp } from 'react-navigation-drawer';
@@ -8,6 +8,7 @@ import HeaderButton from '../components/HeaderButton';
 import DefaultText from '../components/DefaultText';
 import Meal from '../models/Meal';
 import { useMealsReducer } from '../hooks';
+import { toggleFavorite } from '../store/actions';
 
 type Props = {
   navigation: NavigationStackProp<{}>;
@@ -20,8 +21,22 @@ const ListItem = ({ children }: React.PropsWithChildren<{}>) => (
 );
 
 const MealDetailScreen = ({ navigation }: Props) => {
-  const [_, { meals }] = useMealsReducer();
+  const [dispatch, { meals, favoriteMeals }] = useMealsReducer();
   const mealId = navigation.getParam('id');
+  const isFavorite = favoriteMeals.some((m) => m.id === mealId);
+
+  const toggleFavoriteHandler = useCallback(() => dispatch(toggleFavorite(mealId)), [
+    mealId,
+    dispatch,
+  ]);
+
+  useEffect(() => {
+    navigation.setParams({ isFavorite });
+  }, [mealId, isFavorite]);
+
+  useEffect(() => {
+    navigation.setParams({ setFavorite: toggleFavoriteHandler });
+  }, [toggleFavoriteHandler]);
 
   const selectedMeal = meals.find((meal) => meal.id === mealId) as Meal;
 
@@ -74,17 +89,16 @@ const navigationOptions = (navigationData: {
   navigation: NavigationDrawerProp<{}>;
 }): NavigationStackOptions => {
   const title = navigationData.navigation.getParam('title');
-  console.log(title);
+  const isFavorite = navigationData.navigation.getParam('isFavorite');
+  const setFavorite = navigationData.navigation.getParam('setFavorite');
   return {
     headerTitle: title,
     headerRight: () => (
       <HeaderButtons HeaderButtonComponent={HeaderButton}>
         <Item
           title='Favorite'
-          iconName='ios-star'
-          onPress={() => {
-            console.log('Mark as favorite!');
-          }}
+          iconName={isFavorite ? 'ios-star' : 'ios-star-outline'}
+          onPress={setFavorite}
         />
       </HeaderButtons>
     ),
