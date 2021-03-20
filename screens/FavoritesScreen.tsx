@@ -15,17 +15,7 @@ type Props = {
 
 const FavoritesScreen = ({ navigation }: Props) => {
   const [_, { favoriteMeals }] = useMealsReducer();
-  if (favoriteMeals.length === 0 || !favoriteMeals) {
-    return (
-      <View style={styles.content}>
-        <View style={{ paddingHorizontal: 10 }}>
-          <DefaultText style={{ textAlign: 'center' }}>
-            No favorites meal yet. Go and check our meals and hit the star Button!
-          </DefaultText>
-        </View>
-      </View>
-    );
-  }
+
   return (
     <View style={styles.screen}>
       <MealList meals={favoriteMeals} navigation={navigation} />
@@ -38,12 +28,6 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
-  },
-  content: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-    marginHorizontal: 10,
   },
 });
 

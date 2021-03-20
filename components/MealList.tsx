@@ -1,5 +1,5 @@
 import React from 'react';
-import { StyleSheet, FlatList, ListRenderItemInfo } from 'react-native';
+import { StyleSheet, FlatList, ListRenderItemInfo, View } from 'react-native';
 import { NavigationStackProp, NavigationStackOptions } from 'react-navigation-stack';
 
 import { CATEGORIES } from '../data/dummy-data';
@@ -7,14 +7,16 @@ import Meal from '../models/Meal';
 import MealItem from '../components/MealItem';
 import { MealsRoutes } from '../navigation/RouteTypes';
 import { useMealsReducer } from '../hooks';
+import DefaultText from './DefaultText';
 
 type Props = {
   meals: Meal[];
   navigation: NavigationStackProp<{}>;
+  noMealsMessage?: string;
 };
 
-const CategoryMealScreen = ({ navigation, meals }: Props) => {
-  const [_, {  favoriteMeals }] = useMealsReducer();
+const CategoryMealScreen = ({ navigation, meals, noMealsMessage }: Props) => {
+  const [_, { favoriteMeals }] = useMealsReducer();
   const handlePress = (id: string) => {
     navigation.navigate(MealsRoutes.MEAL_DETAIL, {
       id: id,
@@ -25,6 +27,18 @@ const CategoryMealScreen = ({ navigation, meals }: Props) => {
   const renderMealItem = (itemData: ListRenderItemInfo<Meal>) => (
     <MealItem item={itemData.item} onPress={() => handlePress(itemData.item.id)} />
   );
+
+  if (meals.length === 0 || !meals) {
+    return (
+      <View style={styles.content}>
+        <View style={{ paddingHorizontal: 10 }}>
+          <DefaultText style={{ textAlign: 'center' }}>
+            {noMealsMessage ?? 'No available meals :('}
+          </DefaultText>
+        </View>
+      </View>
+    );
+  }
 
   return (
     <FlatList
@@ -41,6 +55,12 @@ const styles = StyleSheet.create({
     width: '100%',
     paddingHorizontal: 15,
     marginBottom: 15,
+  },
+  content: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    marginHorizontal: 10,
   },
 });
 

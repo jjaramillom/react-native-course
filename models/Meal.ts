@@ -59,4 +59,11 @@ class Meal {
   }
 }
 
+export enum Filter {
+  glutenFree = 'glutenFree',
+  vegetarian = 'vegetarian',
+  vegan = 'vegan',
+  lactoseFree = 'lactoseFree',
+}
+
 export default Meal;

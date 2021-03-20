@@ -6,6 +6,8 @@ import { HeaderButtons, Item } from 'react-navigation-header-buttons';
 
 import HeaderButton from '../components/HeaderButton';
 import colors from '../constants/colors';
+import { useMealsReducer } from '../hooks';
+import { setFilter } from '../store/actions';
 
 type FilterSwitchProps = {
   label: string;
@@ -32,6 +34,7 @@ type Props = {
 };
 
 const FiltersScreen = ({ navigation }: Props) => {
+  const [dispatch] = useMealsReducer();
   const [isGlutenFree, setIsGlutenFree] = useState(false);
   const [isLactoseFree, setIsLactoseFree] = useState(false);
   const [isVegan, setIsVegan] = useState(false);
@@ -44,7 +47,7 @@ const FiltersScreen = ({ navigation }: Props) => {
       vegan: isVegan,
       vegetarian: isVegetarian,
     };
-    console.log(appliedFilters);
+    dispatch(setFilter(appliedFilters));
   }, [isGlutenFree, isLactoseFree, isVegan, isVegetarian]);
 
   useEffect(() => {

@@ -52,7 +52,6 @@ const MealDetailScreen = ({ navigation }: Props) => {
       {selectedMeal.ingredients.map((i) => (
         <ListItem key={i}> {i} </ListItem>
       ))}
-      <Text>List of ingredients...</Text>
       <Text style={styles.title}>Steps</Text>
       {selectedMeal.steps.map((s) => (
         <ListItem key={s}> {s} </ListItem>

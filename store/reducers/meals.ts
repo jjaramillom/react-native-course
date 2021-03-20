@@ -1,6 +1,6 @@
 import { MEALS } from '../../data/dummy-data';
 import Meal from '../../models/Meal';
-import { ActionTypes, ToggleFavorite } from '../actions/mealsActionTypes';
+import { ActionTypes, ToggleFavorite, SetFilters } from '../actions/mealsActionTypes';
 
 export interface State {
   meals: Meal[];
@@ -35,16 +35,31 @@ const toggleFavorite = (state: State, { payload }: ToggleFavorite): State => {
   }
 };
 
+const setFilters = (state: State, { payload: { filters } }: SetFilters): State => {
+  const filteredMeals = [...state.meals].filter(
+    (m) =>
+      (filters.glutenFree ? m.isGlutenFree : true) &&
+      (filters.lactoseFree ? m.isLactoseFree : true) &&
+      (filters.vegan ? m.isVegan : true) &&
+      (filters.vegetarian ? m.isVegetarian : true)
+  );
+  return {
+    ...state,
+    filteredMeals,
+  };
+};
+
 const mealsReducer = (state: State = initialState, action: ActionTypes) => {
   switch (action.type) {
     case 'TOGGLE_FAVORITE':
       return toggleFavorite(state, action);
-      break;
+
+    case 'SET_FILTERS':
+      return setFilters(state, action);
 
     default:
-      break;
+      return state;
   }
-  return state;
 };
 
 export default mealsReducer;
